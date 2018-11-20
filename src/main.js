@@ -3,7 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+// 1px边框解决CSS
 import './assets/css/border.css'
+// 字体文件
+import './assets/css/iconfont.css'
 import fastClick from 'fastclick'
 Vue.config.productionTip = false
 
