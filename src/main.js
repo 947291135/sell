@@ -3,6 +3,8 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+// rem
+import './assets/js/rem.js'
 // 1px边框解决CSS
 import './assets/css/border.css'
 // 字体文件
