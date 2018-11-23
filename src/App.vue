@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header></Header>
+    <Header :seller='sellen.seller'></Header>
     <tab></tab>
     <router-view/>
   </div>
