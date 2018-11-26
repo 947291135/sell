@@ -1,5 +1,6 @@
 <template>
     <div class="header">
+        <img :src="seller.avatar" alt="" class="background">
         <div class="content">
             <div class="header_infor">
                 <img class="header_infor_img" :src="seller.avatar" alt="">
@@ -18,7 +19,26 @@
                     </div>
                 </div>
             </div>
-            <div class="header_bottom"></div>
+            <div class="header_bottom" @click="detail_show">
+                <span class="header_bottom_title"></span>
+                <span class="header_bottom_text">{{seller.bulletin}}</span>
+                <span class="iconfont icon">&#xe6a3;</span>
+            </div>
+            <div v-if="seller.supports.length" class="header_icon" @click="detail_show">
+                <span class="header_icon_txt">{{seller.supports.length}}个</span>
+                <span class="iconfont icon">&#xe6a3;</span>
+            </div>
+        </div>
+        <div v-show="detail" class="detail">
+            <div class="detail_wrapper">
+                <div class="detail_main">
+                    {{seller.bulletin}}
+                    {{seller.bulletin}}
+                </div>
+            </div>
+            <div class="detail_close" @click="detail_close">
+                <i class="iconfont icon">&#xe6e9;</i>
+            </div>
         </div>
     </div>
 </template>
@@ -26,6 +46,19 @@
 <script>
 export default {
   name: 'heade',
+  data () {
+    return {
+      detail: false
+    }
+  },
+  methods: {
+    detail_show: function () {
+      this.detail = true
+    },
+    detail_close: function () {
+      this.detail = false
+    }
+  },
   props: {
     seller: {
       type: Object,
@@ -51,9 +84,8 @@ export default {
         position relative
         height  2.68rem
         width 100%
-        &::before
+        .background
             content: ""
-            background url('~@/assets/img/lujiao.jpg') no-repeat center top
             filter: blur(5px)
             z-index: -1
             width: 100%
@@ -94,7 +126,6 @@ export default {
                         bg-image('~@/assets/img/brand')
                         background-size .6rem .36rem
                         margin-right .12rem
-
                     .infor_name
                         font-size .32rem
                         font-weight bold
@@ -144,7 +175,75 @@ export default {
                 position absolute
                 bottom 0
                 left 0
+                color #fff
+                font-size .2rem
+                line-height .56rem
+                padding 0 .44rem 0 .24rem
                 box-sizing border-box
-                padding 0 .24rm
-
+                overflow hidden
+                white-space: nowrap
+                text-overflow: ellipsis
+                .header_bottom_title
+                    width .44rem
+                    height .24rem
+                    bg-image('~@/assets/img/bulletin')
+                    background-repeat no-repeat
+                    background-size .44rem .24rem
+                    display inline-block
+                    line-height .56rem
+                    vertical-align top
+                    margin-top .15rem
+                .header_bottom_text
+                    height .56rem
+                    margin 0 .08rem
+                    vertical-align top
+                .icon
+                    position absolute
+                    right .24rem
+                    font-size .2rem
+            .header_icon
+                position absolute
+                right .24rem
+                bottom .92rem
+                background-color rgba(0,0,0,.2)
+                padding .14rem .16rem
+                color #fff
+                border-radius .4rem
+                font-size .2rem
+                line-height .24rem
+                font-weight 200
+                .icon
+                    font-size .2rem
+                    line-height .24rem
+        .detail
+            width 100%
+            height 100%
+            z-index 100
+            position fixed
+            overflow auto
+            background rgba(7,17,27,.8)
+            .detail_wrapper
+                // min-height 100%
+                &:after
+                    display block
+                    content ''
+                    height 0
+                    line-height 0
+                    clear both
+                    visibility hidden
+                .detail_main
+                    margin-top 1.18rem
+                    padding-bottom  1.28rem
+                    padding-right .72rem
+                    padding-left .72rem
+            .detail_close
+                position relative
+                margin -.64rem auto 0 auto
+                width .64rem
+                height .64rem
+                clear both
+                color rgba(255,255,255,.5)
+                font-weight 500
+                .icon
+                    font-size .64rem
 </style>
