@@ -32,8 +32,8 @@
         <div v-show="detail" class="detail">
             <div class="detail_wrapper">
                 <div class="detail_main">
-                    {{seller.bulletin}}
-                    {{seller.bulletin}}
+                   <h1 class="detail_main_name">{{seller.name}}</h1>
+                   <Star :starLength='3.8'></Star>
                 </div>
             </div>
             <div class="detail_close" @click="detail_close">
@@ -44,11 +44,15 @@
 </template>
 
 <script>
+import Star from './star'
 export default {
   name: 'heade',
+  components: {
+    Star
+  },
   data () {
     return {
-      detail: false
+      detail: true
     }
   },
   methods: {
@@ -73,7 +77,6 @@ export default {
   },
   created () {
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
-    console.log(this.classMap[0])
   }
 }
 </script>
@@ -232,10 +235,16 @@ export default {
                     clear both
                     visibility hidden
                 .detail_main
-                    margin-top 1.18rem
+                    margin-top 1.28rem
                     padding-bottom  1.28rem
                     padding-right .72rem
                     padding-left .72rem
+                    .detail_main_name
+                        font-size .32rem
+                        font-weight 700
+                        color #ffffff
+                        line-height .32rem
+                        text-align center
             .detail_close
                 position relative
                 margin -.64rem auto 0 auto

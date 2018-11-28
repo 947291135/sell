@@ -27,7 +27,6 @@ export default {
       id: '123'
     }).then(function (res) {
       _this.sellen = res.data
-      console.log(res.data)
     })
   }
 
