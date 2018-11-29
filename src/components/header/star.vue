@@ -1,5 +1,5 @@
 <template>
-    <div class="star">
+    <div class="star" :class="itemSize">
         <span v-for="(itemClass , index) in itemClasses" class="star_item" :class="itemClass" :key="index"></span>
     </div>
 </template>
@@ -16,6 +16,11 @@ export default {
     starLength: {
       type: Number,
       default: 0
+    },
+    starSize: {
+      // 默认48，只接受
+      type: Number,
+      default: 48
     }
   },
   computed: {
@@ -39,6 +44,13 @@ export default {
       //     arr.push(CLS_OFF)
       //   }
       return arr
+    },
+    itemSize: function () {
+      if (this.starSize === 48 || this.starSize === 36 || this.starSize === 24) {
+        return 'star_' + this.starSize
+      } else {
+        return 'star_48'
+      }
     }
   }
 }
@@ -48,19 +60,50 @@ export default {
     @import '~@/assets/stylus/mixin.styl'
     .star
         font-size 0
+        text-align center
         .star_item
             display inline-block
             background-repeat no-repeat
-            width .4rem
-            height .4rem
-            background-size .4rem .4rem
-            margin-right .44rem
-            &:last-child
-                margin-right 0
-            &.on
-                bg-image('~@/assets/img/star48_on')
-            &.half
-                bg-image('~@/assets/img/star48_half')
-            &.off
-                bg-image('~@/assets/img/star48_off')
+        &.star_48
+            .star_item
+              width .4rem
+              height .4rem
+              background-size .4rem .4rem
+              margin-right .44rem
+              &:last-child
+                  margin-right 0
+              &.on
+                  bg-image('~@/assets/img/star48_on')
+              &.half
+                  bg-image('~@/assets/img/star48_half')
+              &.off
+                  bg-image('~@/assets/img/star48_off')
+        &.star_36
+            .star_item
+              width .3rem
+              height .3rem
+              background-size .3rem .3rem
+              margin-right .12rem
+              &:last-child
+                  margin-right 0
+              &.on
+                  bg-image('~@/assets/img/star36_on')
+              &.half
+                  bg-image('~@/assets/img/star36_half')
+              &.off
+                  bg-image('~@/assets/img/star36_off')
+        &.star_24
+            .star_item
+              width .2rem
+              height .2rem
+              background-size .2rem .2rem
+              margin-right .06rem
+              &:last-child
+                  margin-right 0
+              &.on
+                  bg-image('~@/assets/img/star24_on')
+              &.half
+                  bg-image('~@/assets/img/star24_half')
+              &.off
+                  bg-image('~@/assets/img/star24_off')
 </style>
