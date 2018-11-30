@@ -14,7 +14,8 @@ export default {
   name: 'App',
   data () {
     return {
-      sellen: {}
+      sellen: {},
+      commodity: []
     }
   },
   components: {
@@ -27,6 +28,7 @@ export default {
       id: '123'
     }).then(function (res) {
       _this.sellen = res.data
+      _this.commodity = res.data.goods
     })
   }
 

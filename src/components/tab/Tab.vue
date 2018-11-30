@@ -1,6 +1,6 @@
 <template>
     <div class="tab border-bottom">
-        <ul class="list">
+        <ul class="list border-bottom">
             <router-link tag="li" :to="{path:'/commodity'}"  class="list_item" exact>商品</router-link>
             <router-link tag="li" :to="{path:'/evaluate'}"  class="list_item" exact>评价</router-link>
             <router-link tag="li" :to="{path:'/business'}" class="list_item" exact>商家</router-link>
