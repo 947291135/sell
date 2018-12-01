@@ -54,6 +54,7 @@ export default {
                 box-sizing border-box
                 padding 0 .24rem
                 display table
+                cursor pointer
                 .list_item_text
                     display: table-cell
                     vertical-align: middle;

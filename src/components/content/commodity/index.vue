@@ -4,7 +4,7 @@
           <List :commodity='commodity'></List>
        </div>
        <div class="content">
-          <Content></Content>
+          <Content :foodes='commodity'></Content>
        </div>
     </div>
 </template>
@@ -30,7 +30,6 @@ export default {
       id: '123'
     }).then(function (res) {
       _this.commodity = res.data.goods
-      console.log(_this.commodity)
     })
   }
 }
@@ -50,5 +49,6 @@ export default {
       background #f3f5f7
       position relative
     .content
+      position relative
       flex 1
 </style>
