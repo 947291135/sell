@@ -1,5 +1,5 @@
 <template>
-    <div class="list">
+    <div class="list" ref="wrapper">
         <ul class="list_ul">
             <li class="list_item" v-for="(item,index) of commodity" :key="index">
                 <span class="list_item_text border-bottom">
@@ -12,8 +12,14 @@
 </template>
 
 <script>
+import BScroll from 'better-scroll'
 export default {
   name: 'List',
+  data () {
+    return {
+      width: document.body.clientWidth
+    }
+  },
   props: {
     commodity: {
       type: Array,
@@ -21,6 +27,12 @@ export default {
         return []
       }
     }
+  },
+  mounted () {
+    this.scroll = new BScroll(this.$refs.wrapper, {
+      click: true
+    })
+    this.scroll.refresh()
   },
   created () {
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
@@ -35,15 +47,13 @@ export default {
         top 0
         bottom 0
         left 0
-        overflow hidden
         height 100%
         width 100%
         .list_ul
             list-style-type none
             padding 0
             margin 0
-            height 100%
-            overflow auto
+
             .list_item
                 width 100%
                 height  1.08rem

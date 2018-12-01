@@ -48,6 +48,7 @@ export default {
       flex 0 1 1.6rem
       background #f3f5f7
       position relative
+      overflow hidden
     .content
       position relative
       flex 1

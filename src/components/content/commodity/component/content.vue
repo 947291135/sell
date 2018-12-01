@@ -1,5 +1,5 @@
 <template>
-    <div class="content">
+    <div class="content" ref="content">
         <ul class="content_ul">
             <li class="foods_list" v-for="(list,index) of foodes" :key="index">
                 <h1 class="foods_title">{{list.name}}</h1>
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import BScroll from 'better-scroll'
 export default {
   name: 'Content',
   props: {
@@ -35,6 +36,11 @@ export default {
         return []
       }
     }
+  },
+  mounted () {
+    this.scroll = new BScroll(this.$refs.content, {
+      click: true
+    })
   },
   watch: {
     foodes: function () {
@@ -50,8 +56,6 @@ export default {
         width 100%
         height 100%
         .content_ul
-            overflow auto
-            height 100%
             margin 0
             padding 0
             .foods_list
@@ -72,7 +76,9 @@ export default {
                         padding .36rem 0
                         display flex
                         position relative
-                        border-bottom 0.01rem solid rgba(7,17,27,.1)
+                        border-bottom .01rem solid rgba(7,17,27,.1)
+                        &:last-child
+                            border none
                         .foods_img
                             width 1.14rem
                             height 1.14rem
