@@ -3,7 +3,7 @@
         <ul class="content_ul">
             <li class="foods_list" v-for="(list,index) of foodes" :key="index">
                 <h1 class="foods_title">{{list.name}}</h1>
-                <ul class="foods_list_ul">
+                <ul class="foods_list_ul" :ref="list.name">
                     <li class="foods_item" v-for="(items,i) of list.foods" :key="i">
                         <img class="foods_img"  :src="items.icon" :alt="items.name">
                         <div class="foods_content">
@@ -35,16 +35,26 @@ export default {
       default: function () {
         return []
       }
+    },
+    listdata: {
+      type: String,
+      default: function () {
+        return ''
+      }
     }
   },
   mounted () {
     this.scroll = new BScroll(this.$refs.content, {
       click: true
     })
+    this.scroll.refresh()
   },
   watch: {
-    foodes: function () {
-      console.log(this.foodes)
+    listdata: function () {
+      if (this.listdata) {
+        let element = this.$refs[this.listdata][0]
+        this.scroll.scrollToElement(element, 500)
+      }
     }
   }
 }

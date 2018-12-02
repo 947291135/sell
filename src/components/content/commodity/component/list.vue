@@ -1,7 +1,7 @@
 <template>
     <div class="list" ref="wrapper">
         <ul class="list_ul">
-            <li class="list_item" v-for="(item,index) of commodity" :key="index">
+            <li class="list_item" v-for="(item,index) of commodity" :key="index" @click="listClick(item.name)" :ref="item.name" :class="{active:itemname==item.name}">
                 <span class="list_item_text border-bottom">
                     <span class="list_item_icon" v-if="item.type>0" :class="classMap[item.type]"></span>
                     {{item.name}}
@@ -17,7 +17,13 @@ export default {
   name: 'List',
   data () {
     return {
-      width: document.body.clientWidth
+      itemname: '单人精彩套餐'
+    }
+  },
+  methods: {
+    listClick: function (data) {
+      this.$emit('listClick', data)
+      this.itemname = data
     }
   },
   props: {
@@ -53,7 +59,6 @@ export default {
             list-style-type none
             padding 0
             margin 0
-
             .list_item
                 width 100%
                 height  1.08rem
@@ -65,6 +70,10 @@ export default {
                 padding 0 .24rem
                 display table
                 cursor pointer
+                &.active
+                    background #ffffff
+                    font-weight 700
+                    color #000
                 .list_item_text
                     display: table-cell
                     vertical-align: middle;

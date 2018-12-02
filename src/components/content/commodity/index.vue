@@ -1,10 +1,10 @@
 <template>
     <div class="commodity">
        <div class="list">
-          <List :commodity='commodity'></List>
+          <List :commodity='commodity' @listClick='listClick'></List>
        </div>
        <div class="content">
-          <Content :foodes='commodity'></Content>
+          <Content :foodes='commodity' :listdata='listdata'></Content>
        </div>
     </div>
 </template>
@@ -17,7 +17,13 @@ export default {
   name: 'Commodity',
   data () {
     return {
-      commodity: []
+      commodity: [],
+      listdata: ''
+    }
+  },
+  methods: {
+    listClick: function (data) {
+      this.listdata = data
     }
   },
   components: {
