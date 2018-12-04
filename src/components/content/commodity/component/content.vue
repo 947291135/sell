@@ -29,6 +29,11 @@
 import BScroll from 'better-scroll'
 export default {
   name: 'Content',
+  data () {
+    return {
+      contentTop: 0
+    }
+  },
   props: {
     foodes: {
       type: Array,
@@ -44,10 +49,13 @@ export default {
     }
   },
   mounted () {
-    this.scroll = new BScroll(this.$refs.content, {
-      click: true
+    this.$nextTick(() => {
+      this.scroll = new BScroll(this.$refs.content, {
+        click: true,
+        startY: this.contentTop
+      })
+      this.scroll.refresh()
     })
-    this.scroll.refresh()
   },
   watch: {
     listdata: function () {
@@ -56,6 +64,9 @@ export default {
         this.scroll.scrollToElement(element, 500)
       }
     }
+  },
+  updated: function () {
+
   }
 }
 </script>

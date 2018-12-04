@@ -17,7 +17,7 @@ export default {
   name: 'List',
   data () {
     return {
-      itemname: '单人精彩套餐'
+      itemname: ''
     }
   },
   methods: {
@@ -36,12 +36,27 @@ export default {
   },
   mounted () {
     this.scroll = new BScroll(this.$refs.wrapper, {
-      click: true
+      click: true,
+      bounceTime: 300
     })
     this.scroll.refresh()
   },
   created () {
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
+  },
+  watch: {
+    commodity: function () {
+      if (this.commodity) {
+        this.$nextTick(function () {
+          this.scroll.refresh()
+          for (let datas of this.commodity) {
+            if (datas.first) {
+              this.itemname = datas.name
+            }
+          }
+        })
+      }
+    }
   }
 }
 </script>

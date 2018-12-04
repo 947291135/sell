@@ -397,6 +397,7 @@
     {
       "name": "单人精彩套餐",
       "type": 2,
+      "first":true,
       "foods": [
         {
           "name": "红枣山药粥套餐",

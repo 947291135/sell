@@ -36,6 +36,8 @@ export default {
 </script>
 
 <style lang="stylus">
+*
+  touch-action: none
 body
   margin 0
   padding 0
