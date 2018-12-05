@@ -1,7 +1,7 @@
 <template>
     <div class="content" ref="content">
         <ul class="content_ul">
-            <li class="foods_list" v-for="(list,index) of foodes" :key="index">
+            <li class="foods_list foods_list_hook" v-for="(list,index) of foodes" :key="index">
                 <h1 class="foods_title">{{list.name}}</h1>
                 <ul class="foods_list_ul" :ref="list.name">
                     <li class="foods_item" v-for="(items,i) of list.foods" :key="i">
@@ -31,7 +31,9 @@ export default {
   name: 'Content',
   data () {
     return {
-      contentTop: 0
+      listHeight: [], // 所有产品块的高度区间
+      scrollY: 0, // 获取当前滑动的高度
+      timer: null // 函数节流
     }
   },
   props: {
@@ -49,13 +51,7 @@ export default {
     }
   },
   mounted () {
-    this.$nextTick(() => {
-      this.scroll = new BScroll(this.$refs.content, {
-        click: true,
-        startY: this.contentTop
-      })
-      this.scroll.refresh()
-    })
+
   },
   watch: {
     listdata: function () {
@@ -63,10 +59,54 @@ export default {
         let element = this.$refs[this.listdata][0]
         this.scroll.scrollToElement(element, 500)
       }
+    },
+    foodes: function () {
+      this.$nextTick(() => {
+        this.scroll = new BScroll(this.$refs.content, {
+          click: true,
+          probeType: 3
+        })
+
+        this.scroll.on('scroll', (pos) => {
+          this.scrollY = Math.abs(Math.round(pos.y))
+
+          // 函数节流
+          if (this.timer) {
+            clearTimeout(this.timer)
+          }
+          this.timer = setTimeout(() => {
+            this.$emit('scrollitem', this.currentIndex)
+          }, 16)
+        })
+        this.scroll.refresh()
+        // 获取所有li的高度
+        this._calculateHeight()
+      })
     }
   },
-  updated: function () {
-
+  methods: {
+    _calculateHeight: function () {
+      let foodList = this.$refs.content.getElementsByClassName('foods_list_hook')
+      let height = 0
+      this.listHeight.push(height)
+      for (let index = 0; index < foodList.length; index++) {
+        let item = foodList[index]
+        height += item.clientHeight
+        this.listHeight.push(height)
+      }
+    }
+  },
+  computed: {
+    currentIndex () {
+      for (let index = 0; index < this.listHeight.length; index++) {
+        let height1 = this.listHeight[index]
+        let height2 = this.listHeight[index + 1]
+        if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+          return index
+        }
+      }
+      return 0
+    }
   }
 }
 </script>

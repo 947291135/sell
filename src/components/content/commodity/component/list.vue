@@ -1,7 +1,7 @@
 <template>
     <div class="list" ref="wrapper">
         <ul class="list_ul">
-            <li class="list_item" v-for="(item,index) of commodity" :key="index" @click="listClick(item.name)" :ref="item.name" :class="{active:itemname==item.name}">
+            <li class="list_item" v-for="(item,index) of commodity" :key="index" @click="listClick(item.name,$event)" :ref="item.name" :class="{active:index==scrollItem}">
                 <span class="list_item_text border-bottom">
                     <span class="list_item_icon" v-if="item.type>0" :class="classMap[item.type]"></span>
                     {{item.name}}
@@ -21,7 +21,10 @@ export default {
     }
   },
   methods: {
-    listClick: function (data) {
+    listClick: function (data, event) {
+      // if (event._constructed) {
+      //   return
+      // }
       this.$emit('listClick', data)
       this.itemname = data
     }
@@ -31,6 +34,11 @@ export default {
       type: Array,
       default: function () {
         return []
+      }
+    },
+    scrollItem: {
+      default: function () {
+        return 0
       }
     }
   },

@@ -2,12 +2,14 @@
   <div id="app">
     <Header :seller='sellen.seller'></Header>
     <tab></tab>
+    <Shopcart></Shopcart>
     <router-view/>
   </div>
 </template>
 
 <script>
 import Header from './components/header/Header'
+import Shopcart from './components/shopcart.vue'
 import tab from './components/tab/Tab'
 import axios from 'axios'
 export default {
@@ -20,7 +22,8 @@ export default {
   },
   components: {
     Header,
-    tab
+    tab,
+    Shopcart
   },
   created () {
     var _this = this

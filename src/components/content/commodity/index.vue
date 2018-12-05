@@ -1,10 +1,10 @@
 <template>
     <div class="commodity">
        <div class="list">
-          <List :commodity='commodity' @listClick='listClick'></List>
+          <List :commodity='commodity' @listClick='listClick' :scrollItem='scrollItem'></List>
        </div>
        <div class="content">
-          <Content :foodes='commodity' :listdata='listdata'></Content>
+          <Content :foodes='commodity' :listdata='listdata' @scrollitem='scrollitem'></Content>
        </div>
     </div>
 </template>
@@ -18,12 +18,16 @@ export default {
   data () {
     return {
       commodity: [],
-      listdata: ''
+      listdata: '',
+      scrollItem: 0
     }
   },
   methods: {
     listClick: function (data) {
       this.listdata = data
+    },
+    scrollitem: function (data) {
+      this.scrollItem = data
     }
   },
   components: {
@@ -45,7 +49,7 @@ export default {
   .commodity
     position absolute
     top 3.47rem
-    bottom 1.16rem
+    bottom .96rem
     left 0
     width 100%
     display flex
