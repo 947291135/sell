@@ -2,7 +2,7 @@
   <div id="app">
     <Header :seller='sellen.seller'></Header>
     <tab></tab>
-    <Shopcart></Shopcart>
+    <Shopcart :deliveryPrice='seller.deliveryPrice' :minPrice='seller.minPrice'></Shopcart>
     <router-view/>
   </div>
 </template>
@@ -17,7 +17,8 @@ export default {
   data () {
     return {
       sellen: {},
-      commodity: []
+      commodity: [],
+      seller: {}
     }
   },
   components: {
@@ -31,6 +32,7 @@ export default {
       id: '123'
     }).then(function (res) {
       _this.sellen = res.data
+      _this.seller = _this.sellen.seller
       _this.commodity = res.data.goods
     })
   }

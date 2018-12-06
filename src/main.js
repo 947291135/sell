@@ -10,6 +10,9 @@ import './assets/css/border.css'
 // 字体文件
 import './assets/css/iconfont.css'
 import fastClick from 'fastclick'
+// vuex引入
+import store from './vuex/index.js'
+
 Vue.config.productionTip = false
 
 // 注册fastClick插件
@@ -20,6 +23,7 @@ new Vue({
   el: '#app',
   router,
   fastClick,
+  store,
   components: { App },
   template: '<App/>'
 })

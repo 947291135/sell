@@ -4,7 +4,7 @@
             <li class="foods_list foods_list_hook" v-for="(list,index) of foodes" :key="index">
                 <h1 class="foods_title">{{list.name}}</h1>
                 <ul class="foods_list_ul" :ref="list.name">
-                    <li class="foods_item" v-for="(items,i) of list.foods" :key="i">
+                    <li class="foods_item" v-for="(items,i) of list.foods" :key="i" @click="foodesClock(items.sellCount,items.name,items.price)">
                         <img class="foods_img"  :src="items.icon" :alt="items.name">
                         <div class="foods_content">
                             <h2 class="foods_name">{{items.name}}</h2>
@@ -27,6 +27,7 @@
 
 <script>
 import BScroll from 'better-scroll'
+import { mapMutations } from 'vuex'
 export default {
   name: 'Content',
   data () {
@@ -50,9 +51,6 @@ export default {
       }
     }
   },
-  mounted () {
-
-  },
   watch: {
     listdata: function () {
       if (this.listdata) {
@@ -71,12 +69,12 @@ export default {
           this.scrollY = Math.abs(Math.round(pos.y))
 
           // 函数节流
-          if (this.timer) {
-            clearTimeout(this.timer)
-          }
-          this.timer = setTimeout(() => {
-            this.$emit('scrollitem', this.currentIndex)
-          }, 16)
+          // if (this.timer) {
+          //   clearTimeout(this.timer)
+          // }
+          // this.timer = setTimeout(() => {
+          this.$emit('scrollitem', this.currentIndex)
+          // }, 16)
         })
         this.scroll.refresh()
         // 获取所有li的高度
@@ -94,7 +92,12 @@ export default {
         height += item.clientHeight
         this.listHeight.push(height)
       }
-    }
+    },
+    foodesClock: function (sellCount, name, price) {
+      this.foodesClocke({sellCount, name, price})
+      this.foodesPrice({sellCount, name, price})
+    },
+    ...mapMutations(['foodesClocke', 'foodesPrice'])
   },
   computed: {
     currentIndex () {
