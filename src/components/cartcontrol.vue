@@ -2,7 +2,7 @@
     <div class="cartcontrol">
       <transition>
         <div class="cart_decrease" v-show='item>0' @click="decrease">
-          <span class="iconfont">&#xe712;</span>
+          <span class="inner iconfont">&#xe712;</span>
         </div>
       </transition>
       <transition>
@@ -66,11 +66,16 @@ export default {
       line-height .32rem
       font-size .32rem
       color rgb(0,160,220)
-      &.v-enter-active,&.v-leave-active
-        transition: all .3s linear
+      &.v-leave-active,&.v-enter-active
+        transform:translateX(0);
+        transition all .5s
       &.v-enter,&.v-leave-to
-        transform translate3d(0,0,0)
         opacity 0
+        transform:translateX(.24rem);
+      .inner
+        line-height .32rem
+        font-size .32rem
+        color rgb(0,160,220)
     .cart_count
       display inline-block
       width .24rem
