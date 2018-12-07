@@ -10,7 +10,7 @@
         </div>
         <div class="price">{{this.price}}￥</div><div class="desc">另需配送费￥{{deliveryPrice}}元</div>
       </div>
-      <div class="content_right" :class="{active:this.price>this.minPrice}">{{payDesc}}</div>
+      <div class="content_right" :class="{active:this.price>=this.minPrice}">{{payDesc}}</div>
     </div>
   </div>
 </template>

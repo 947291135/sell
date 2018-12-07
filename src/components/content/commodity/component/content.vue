@@ -4,7 +4,7 @@
             <li class="foods_list foods_list_hook" v-for="(list,index) of foodes" :key="index">
                 <h1 class="foods_title">{{list.name}}</h1>
                 <ul class="foods_list_ul" :ref="list.name">
-                    <li class="foods_item" v-for="(items,i) of list.foods" :key="i" @click="foodesClock(items.sellCount,items.name,items.price)">
+                    <li class="foods_item" v-for="(items,i) of list.foods" :key="i">
                         <img class="foods_img"  :src="items.icon" :alt="items.name">
                         <div class="foods_content">
                             <h2 class="foods_name">{{items.name}}</h2>
@@ -17,6 +17,9 @@
                                 <span>￥{{items.price}}</span>
                                 <span v-show="items.oldPrice" class="foods_olprice">￥{{items.oldPrice}}</span>
                             </div>
+                            <div class="cartcontrol_wrapper">
+                                <Cartcontrol :foods='items'></Cartcontrol>
+                            </div>
                         </div>
                     </li>
                 </ul>
@@ -27,6 +30,7 @@
 
 <script>
 import BScroll from 'better-scroll'
+import Cartcontrol from '@/components/cartcontrol'
 import { mapMutations } from 'vuex'
 export default {
   name: 'Content',
@@ -36,6 +40,9 @@ export default {
       scrollY: 0, // 获取当前滑动的高度
       timer: null // 函数节流
     }
+  },
+  components: {
+    Cartcontrol
   },
   props: {
     foodes: {
@@ -93,9 +100,9 @@ export default {
         this.listHeight.push(height)
       }
     },
-    foodesClock: function (sellCount, name, price) {
-      this.foodesClocke({sellCount, name, price})
-      this.foodesPrice({sellCount, name, price})
+    foodesClock: function (name, price) {
+      this.foodesClocke({name, price})
+      this.foodesPrice({name, price})
     },
     ...mapMutations(['foodesClocke', 'foodesPrice'])
   },
@@ -190,4 +197,8 @@ export default {
                                         position absolute
                                         left .02rem
                                         top .1rem
+                            .cartcontrol_wrapper
+                              position absolute
+                              right 0
+                              bottom 0
 </style>
