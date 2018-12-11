@@ -21,7 +21,6 @@ export default new Vuex.Store({
       } else {
         ctx.selectFoods[foodIndex].count++
       }
-      console.log(ctx.selectFoods)
     },
     foodesDecrease: function (ctx, data) {
       let foodIndex = ctx.selectFoods.findIndex(food => food.name === data.name)
@@ -34,8 +33,10 @@ export default new Vuex.Store({
         // foodIndex存在 ,更新数据
       } else {
         ctx.selectFoods[foodIndex].count--
+        if (ctx.selectFoods[foodIndex].count < 1) {
+          ctx.selectFoods.splice(foodIndex, 1)
+        }
       }
-      console.log(ctx.selectFoods)
     },
     foodesPrice: function (ctx) {
       let total = 0

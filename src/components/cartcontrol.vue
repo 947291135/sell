@@ -1,7 +1,7 @@
 <template>
     <div class="cartcontrol">
       <transition>
-        <div class="cart_decrease" v-show='item>0' @click="decrease">
+        <div class="cart_decrease" v-show='item>0' @click="decrease($event)">
           <span class="inner iconfont">&#xe712;</span>
         </div>
       </transition>
@@ -17,6 +17,7 @@
 <script>
 // 产品加减号组件
 import { mapState, mapMutations } from 'vuex'
+import BUS from '@/BUS.js'
 export default {
   name: 'Cartcontrol',
   data () {
@@ -37,19 +38,29 @@ export default {
     }
   },
   methods: {
-    add: function () {
+    add: function (event) {
       this.foodesClocke({name: this.foods.name, price: this.foods.price})
       this.foodesPrice({name: this.foods.name, price: this.foods.price})
-      this.item++
+      BUS.$emit('Ball', event.target)
     },
     decrease: function () {
       this.foodesDecrease({name: this.foods.name, price: this.foods.price})
       this.foodesPrice()
-      this.item--
     },
     ...mapMutations(['foodesClocke', 'foodesPrice', 'foodesDecrease'])
   },
   watch: {
+    selectFoods: {
+      handler: function () {
+        let foodIndex = this.selectFoods.findIndex(food => food.name === this.foods.name)
+        if (foodIndex === -1) {
+          this.item = 0
+        } else {
+          this.item = this.selectFoods[foodIndex].count
+        }
+      },
+      deep: true
+    }
   },
   computed: {
     ...mapState(['selectFoods'])
@@ -67,15 +78,17 @@ export default {
       font-size .32rem
       color rgb(0,160,220)
       &.v-leave-active,&.v-enter-active
-        transform:translateX(0);
+        transform translate3D(0,0,0)
         transition all .5s
+        opacity 1
+        .inner
+          transition all .5s
+          transform rotate(0)
       &.v-enter,&.v-leave-to
         opacity 0
-        transform:translateX(.24rem);
-      .inner
-        line-height .32rem
-        font-size .32rem
-        color rgb(0,160,220)
+        transform translate3D(.48rem,0,0)
+        .inner
+          transform rotate(180deg)
     .cart_count
       display inline-block
       width .24rem
