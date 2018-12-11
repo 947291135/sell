@@ -21,6 +21,17 @@
         </div>
       </transition-group>
     </div>
+    <div class="shopcart-List">
+      <div class="list-header">
+        <h1 class="title">购物车</h1>
+        <span class="empty">请空</span>
+      </div>
+      <div class="list_content">
+        <ul>
+          <li class="food" v-for="(food,index) of selectFoods" :key="index"></li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -101,7 +112,6 @@ export default {
     },
     afterEnter (el) {
       let ball = this.dropBalls.shift()
-
       if (ball) {
         ball.show = false
         el.style.display = 'none'
