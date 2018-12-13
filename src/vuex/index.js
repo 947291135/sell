@@ -38,6 +38,10 @@ export default new Vuex.Store({
         }
       }
     },
+    empty: function (ctx) {
+      ctx.selectFoods = []
+      ctx.price = 0
+    },
     foodesPrice: function (ctx) {
       let total = 0
       ctx.selectFoods.forEach((food) => {

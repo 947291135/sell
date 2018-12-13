@@ -1,8 +1,9 @@
 <template>
+<div>
   <div class="shopcart">
     <div class="content">
       <div class="content_left">
-        <div class="logo_wrapper" :class="{active:this.selectFoods.length }">
+        <div class="logo_wrapper"  @click="show_cart" :class="{active:this.selectFoods.length }">
           <div class="logo">
             <span class="iconfont">&#xe746;</span>
           </div>
@@ -21,26 +22,53 @@
         </div>
       </transition-group>
     </div>
-    <div class="shopcart-List">
-      <div class="list-header">
-        <h1 class="title">购物车</h1>
-        <span class="empty">请空</span>
+    <transition>
+      <div class="shopcart-List" v-show="shopcart_show">
+        <div class="list-header">
+          <h1 class="title">购物车</h1>
+          <span class="empty" @click="empty">清空</span>
+        </div>
+        <div class="list_content" ref="contentss">
+          <ul>
+            <li class="food" v-for="(food,index) of selectFoods" :key="index">
+                <h2 class="food_title">{{food.name}}</h2>
+                <div class="food_info">
+                  <span class="food_price">{{food.price*food.count}}￥</span>
+                  <div class="cartcontrol">
+                    <Cartcontrol :foods='{name:food.name,price:food.price}'></Cartcontrol>
+                  </div>
+                </div>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="list_content">
-        <ul>
-          <li class="food" v-for="(food,index) of selectFoods" :key="index"></li>
-        </ul>
-      </div>
-    </div>
+    </transition>
   </div>
+  <transition>
+    <div class="mum" v-show="shopcart_show"></div>
+  </transition>
+</div>
 </template>
 
 <script>
 // 底部购物篮组件
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import BUS from '@/BUS.js'
+import Cartcontrol from '@/components/cartcontrol'
+import BScroll from 'better-scroll'
 export default {
   name: 'Shopcart',
+  components: {
+    Cartcontrol
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.scroll = new BScroll(this.$refs.contentss, {
+        click: true
+      })
+      this.scroll.refresh()
+    })
+  },
   data () {
     return {
       balls: [
@@ -60,7 +88,8 @@ export default {
           show: false
         }
       ],
-      dropBalls: []
+      dropBalls: [],
+      shopcart_show: false
     }
   },
   created () {
@@ -116,7 +145,13 @@ export default {
         ball.show = false
         el.style.display = 'none'
       }
-    }
+    },
+    show_cart: function () {
+      if (this.selectFoods.length) {
+        this.shopcart_show = !this.shopcart_show
+      }
+    },
+    ...mapMutations(['empty'])
   },
   computed: {
     payDesc: function () {
@@ -147,11 +182,47 @@ export default {
         return 0
       }
     }
+  },
+  watch: {
+    selectFoods: function () {
+      this.scroll.refresh()
+      if (this.selectFoods.length <= 0) {
+        this.shopcart_show = false
+      }
+    },
+    shopcart_show: function () {
+      this.scroll.refresh()
+    }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
+  .mum
+    position fixed
+    width 100%
+    height 100%
+    top 0
+    bottom 0
+    left 0
+    right 0
+    z-index 40
+    background rgba(7,17,27,.6)
+    &.v-leave-active,&.v-enter-active
+      opacity  1
+      transition all .5s
+    &.v-enter,&.v-leave-to
+      opacity 0
+    &:after
+      content: "";
+      width:100%;
+      height:100%;
+      position: absolute;
+      left:0;
+      top:0;
+      background: inherit;
+      filter: blur(10px);
+      z-index: 2;
   .shopcart
     position fixed
     bottom 0
@@ -159,12 +230,13 @@ export default {
     width 100%
     height .96rem
     z-index 50
-    background-color #141d27
     .content
+      z-index 50
       display flex
       position relative
       width 100%
       height 100%
+      background-color #141d27
       .content_left
         flex 1
         position relative
@@ -270,4 +342,72 @@ export default {
             border-radius 50%
             background rgb(0,160,220)
             transition all .4s linear
+    .shopcart-List
+      z-index 30
+      position absolute
+      bottom .96rem
+      left 0
+      width 100%
+      max-height 6.11rem
+      background #ffffff
+      &.v-leave-active,&.v-enter-active
+       transition all .5s
+       transform translate3d(0,0,0)
+      &.v-enter,&.v-leave-to
+        transform translate3d(0,100%,0)
+      .list-header
+        width 100%
+        height .8rem
+        background #f3f5f7
+        border-bottom 1px solid rgba(7,17,27,.1)
+        line-height .8rem
+        box-sizing border-box
+        padding  0 .3rem
+        .title
+          margin 0
+          display inline-block
+          float left
+          font-size .28rem
+          font-weight 700
+          color rgb(7,17,27)
+        .empty
+          font-size .24rem
+          color rgb(0,160,220)
+          float right
+      .list_content
+        max-height 5.15rem
+        padding 0 .3rem
+        box-sizing border-box
+        overflow hidden
+        width 100%
+        ul
+          padding 0
+          margin 0
+          .food
+            list-style-type none
+            padding .24rem 0
+            width 100%
+            border-bottom 1px solid rgba(7,17,27,.1)
+            &:last-child
+              border none
+            .food_title
+              font-size .28rem
+              color rgb(7,17,27)
+              display inline-block
+              line-height .48rem
+              margin 0
+            .food_info
+              display inline-block
+              float right
+              .food_price
+                font-size .28rem
+                font-weight 700
+                line-height .48rem
+                color rgb(240,20,20)
+                display inline-block
+                margin-right .24rem
+                vertical-align middle
+              .cartcontrol
+                display inline-block
+                vertical-align top
 </style>

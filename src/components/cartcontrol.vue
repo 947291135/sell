@@ -73,10 +73,12 @@ export default {
     font-size 0
     .cart_decrease
       display inline-block
-      padding .12rem
       line-height .32rem
       font-size .32rem
       color rgb(0,160,220)
+      .iconfont
+        line-height .48rem
+        font-size .48rem
       &.v-leave-active,&.v-enter-active
         transform translate3D(0,0,0)
         transition all .5s
@@ -91,9 +93,7 @@ export default {
           transform rotate(180deg)
     .cart_count
       display inline-block
-      width .24rem
-      padding-top .12rem
-      line-height: 0.32rem;
+      line-height: 0.48rem;
       font-size: 0.2rem;
       vertical-align top
       text-align center
@@ -105,8 +105,10 @@ export default {
         opacity 0
     .cart_add
       display inline-block
-      padding .12rem
       line-height .32rem
       font-size .32rem
       color rgb(0,160,220)
+      .iconfont
+        font-size .48rem
+        line-height .48rem
 </style>
