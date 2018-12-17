@@ -343,7 +343,7 @@ export default {
             background rgb(0,160,220)
             transition all .4s linear
     .shopcart-List
-      z-index 30
+      z-index 35
       position absolute
       bottom .96rem
       left 0

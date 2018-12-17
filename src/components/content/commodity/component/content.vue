@@ -4,7 +4,7 @@
             <li class="foods_list foods_list_hook" v-for="(list,index) of foodes" :key="index">
                 <h1 class="foods_title">{{list.name}}</h1>
                 <ul class="foods_list_ul" :ref="list.name">
-                    <li class="foods_item" v-for="(items,i) of list.foods" :key="i">
+                    <li class="foods_item" v-for="(items,i) of list.foods" :key="i" @click="selectFood(items,$event)">
                         <img class="foods_img"  :src="items.icon" :alt="items.name">
                         <div class="foods_content">
                             <h2 class="foods_name">{{items.name}}</h2>
@@ -103,6 +103,9 @@ export default {
     foodesClock: function (name, price) {
       this.foodesClocke({name, price})
       this.foodesPrice({name, price})
+    },
+    selectFood: function (food, event) {
+      this.$emit('selectFood', food)
     },
     ...mapMutations(['foodesClocke', 'foodesPrice'])
   },

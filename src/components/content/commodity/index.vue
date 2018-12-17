@@ -4,7 +4,10 @@
           <List :commodity='commodity' @listClick='listClick' :scrollItem='scrollItem'></List>
        </div>
        <div class="content">
-          <Content :foodes='commodity' :listdata='listdata' @scrollitem='scrollitem'></Content>
+          <Content :foodes='commodity' :listdata='listdata' @scrollitem='scrollitem' @selectFood='selectFood'></Content>
+       </div>
+       <div>
+         <FOOD :food='selectedFood' ref="food"></FOOD>
        </div>
     </div>
 </template>
@@ -12,6 +15,7 @@
 <script>
 import List from './component/list.vue'
 import Content from './component/content.vue'
+import FOOD from '@/components/food/index.vue'
 import axios from 'axios'
 export default {
   name: 'Commodity',
@@ -19,7 +23,8 @@ export default {
     return {
       commodity: [],
       listdata: '',
-      scrollItem: 0
+      scrollItem: 0,
+      selectedFood: {}
     }
   },
   methods: {
@@ -28,11 +33,17 @@ export default {
     },
     scrollitem: function (data) {
       this.scrollItem = data
+    },
+    selectFood: function (data) {
+      this.selectedFood = data
+      console.log(this.selectedFood)
+      this.$refs.food.show()
     }
   },
   components: {
     List,
-    Content
+    Content,
+    FOOD
   },
   created () {
     var _this = this

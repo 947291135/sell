@@ -1,14 +1,14 @@
 <template>
     <div class="cartcontrol">
       <transition>
-        <div class="cart_decrease" v-show='item>0' @click="decrease($event)">
+        <div class="cart_decrease" v-show='item>0' @click.stop="decrease($event)">
           <span class="inner iconfont">&#xe712;</span>
         </div>
       </transition>
       <transition>
         <div class="cart_count" v-show='item>0'>{{item}}</div>
       </transition>
-      <div class="cart_add" @click="add"  transition='move'>
+      <div class="cart_add" @click.stop="add"  transition='move'>
         <span class="iconfont">&#xe6e0;</span>
       </div>
     </div>
