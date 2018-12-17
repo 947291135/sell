@@ -24,7 +24,22 @@
         </div>
         <div class="rating">
           <h1 class="rating_title">商品评价</h1>
-          <RatingSelect :selectType='selectType' :onlyConent='onlyContent' :desc='desc' :ratings='food.ratings'></RatingSelect>
+          <RatingSelect @toggleContent='toggleContent' @selectTypes='selectTypes' :selectType='selectType' :onlyConent='onlyContent' :desc='desc' :ratings='food.ratings'></RatingSelect>
+          <div class="rating_wrapper">
+            <ul v-show="food.ratings && food.ratings.length">
+              <li v-for="(ratings,index) of food.ratings" :key="index">
+                <div class="user">
+                  <span class="name">{{ratings.username}}</span>
+                  <img class="avatar"  :src="ratings.avatar" :alt="ratings.username">
+                </div>
+                <div class="time">{{Date(ratings.rateTime)}}</div>
+                <p class="text">
+                  <span class="iconfont"></span>{{ratings.text}}
+                </p>
+              </li>
+            </ul>
+            <div class="no_rating" v-show="!food.ratings"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -76,6 +91,15 @@ export default {
     },
     hide () {
       this.showFlag = false
+    },
+    selectTypes (data) {
+      this.selectType = data
+    },
+    toggleContent (data) {
+      this.onlyContent = data
+    },
+    Date (data) {
+
     }
   }
 }
@@ -194,4 +218,8 @@ export default {
         line-height .28rem
         color rgb(7,17,27)
         margin 0 0 .12rem 0
+      .rating_wrapper
+        border-top 1px solid rgba(7,17,27,0.1)
+        position relative
+        width 100%
 </style>

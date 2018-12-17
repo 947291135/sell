@@ -1,19 +1,19 @@
 <template>
     <div class="rating_select">
         <div class="rating_typpe">
-            <span class="block positive" :class="{'active':selectType==2}">{{desc.all}}<span class="count">47</span></span>
-            <span class="block positive" :class="{'active':selectType==0}">{{desc.positive}}<span class="count">40</span></span>
-            <span class="block negative" :class="{'active':selectType==1}">{{desc.negative}}<span class="count">7</span></span>
+            <span class="block positive" @click="select(2,$event)" :class="{'active':selectType==2}">{{desc.all}}<span class="count">{{ratings.length}}</span></span>
+            <span class="block positive" @click="select(0,$event)" :class="{'active':selectType==0}">{{desc.positive}}<span class="count">{{positives.length}}</span></span>
+            <span class="block negative" @click="select(1,$event)" :class="{'active':selectType==1}">{{desc.negative}}<span class="count">{{negatives.length}}</span></span>
         </div>
-        <div class="switch" :class="{'on':onlyConent}">
+        <div class="switch" @click="toggleContent()" :class="{'on':onlyConent}">
             <span class="iconfont">&#xe656;</span> <span class="switch_txt">只看有内容的评价</span>
         </div>
     </div>
 </template>
 
 <script>
-// const POSITIVE = 0
-// const NEGATIVE = 1
+const POSITIVE = 0
+const NEGATIVE = 1
 const ALL = 2
 export default {
   name: 'RatingSelect',
@@ -41,6 +41,40 @@ export default {
           negative: '不满意'
         }
       }
+    }
+  },
+  methods: {
+    select (type, event) {
+      this.$emit('selectTypes', type)
+    },
+    toggleContent () {
+      this.$emit('toggleContent', !this.onlyConent)
+    }
+  },
+  computed: {
+    positives () {
+      return this.ratings.filter((rating) => {
+        return rating.rateType === POSITIVE
+      })
+    },
+    negatives () {
+      return this.ratings.filter((rating) => {
+        return rating.rateType === NEGATIVE
+      })
+    },
+    Date (data) {
+      var date = new Date()
+      date.setTime(data * 1000)
+      var y = date.getFullYear()
+      var m = date.getMonth() + 1
+      m = m < 10 ? ('0' + m) : m
+      var d = date.getDate()
+      d = d < 10 ? ('0' + d) : d
+      var h = date.getHours()
+      h = h < 10 ? ('0' + h) : h
+      var minute = date.getMinutes()
+      minute = minute < 10 ? ('0' + minute) : minute
+      return y + '-' + m + '-' + d + ' ' + h + ':' + minute
     }
   }
 }
@@ -81,7 +115,6 @@ export default {
         padding .24rem 0
         position relative
         width 100%
-        border-bottom 1px solid rgba(7,17,27,0.1)
         &.on
             .iconfont
                 color #00c850
@@ -95,5 +128,4 @@ export default {
             font-size .24rem
             color rgb(147,153,159)
             line-height .48rem
-
 </style>

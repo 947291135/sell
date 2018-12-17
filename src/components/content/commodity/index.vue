@@ -36,7 +36,6 @@ export default {
     },
     selectFood: function (data) {
       this.selectedFood = data
-      console.log(this.selectedFood)
       this.$refs.food.show()
     }
   },
