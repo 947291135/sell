@@ -61,6 +61,7 @@ export default {
     .star
         font-size 0
         text-align center
+        display inline-block
         .star_item
             display inline-block
             background-repeat no-repeat

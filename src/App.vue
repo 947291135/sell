@@ -3,7 +3,7 @@
     <Header :seller='sellen.seller'></Header>
     <tab></tab>
     <Shopcart :deliveryPrice='seller.deliveryPrice' :minPrice='seller.minPrice'></Shopcart>
-    <router-view/>
+    <router-view :seller='seller'/>
   </div>
 </template>
 
@@ -33,6 +33,7 @@ export default {
     }).then(function (res) {
       _this.sellen = res.data
       _this.seller = _this.sellen.seller
+      // console.log(_this.seller)
       _this.commodity = res.data.goods
     })
   }

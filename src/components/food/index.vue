@@ -27,18 +27,20 @@
           <RatingSelect @toggleContent='toggleContent' @selectTypes='selectTypes' :selectType='selectType' :onlyConent='onlyContent' :desc='desc' :ratings='food.ratings'></RatingSelect>
           <div class="rating_wrapper">
             <ul v-show="food.ratings && food.ratings.length">
-              <li v-for="(ratings,index) of food.ratings" :key="index">
+              <li v-show="needShow(ratings.rateType,ratings.text)" v-for="(ratings,index) of food.ratings" :key="index">
                 <div class="user">
                   <span class="name">{{ratings.username}}</span>
                   <img class="avatar"  :src="ratings.avatar" :alt="ratings.username">
                 </div>
-                <div class="time">{{Date(ratings.rateTime)}}</div>
+                <div class="time">{{date(ratings.rateTime)}}</div>
                 <p class="text">
-                  <span class="iconfont"></span>{{ratings.text}}
+                  <span class="iconfont good" v-if="ratings.rateType===0">&#xe7e2;</span>
+                  <span class="iconfont difference" v-if="ratings.rateType===1">&#xe814;</span>
+                  {{ratings.text?ratings.text:'用户未评价'}}
                 </p>
               </li>
             </ul>
-            <div class="no_rating" v-show="!food.ratings"></div>
+            <div class="no_rating" v-show="ratings_all(food.ratings)">暂无评价</div>
           </div>
         </div>
       </div>
@@ -98,8 +100,25 @@ export default {
     toggleContent (data) {
       this.onlyContent = data
     },
-    Date (data) {
-
+    date (i) {
+      let date = new Date(i)
+      return date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日' + ' ' + (date.getHours() + 1) + ':' + (date.getMinutes() + 1)
+    },
+    needShow (type, text) {
+      if (this.onlyContent && !text) {
+        return false
+      }
+      if (this.selectType === ALL) {
+        return true
+      } else {
+        return this.selectType === type
+      }
+    },
+    ratings_all (data) {
+      for (var i in data) { // 如果不为空，则会执行到这一步，返回true
+        return false
+      }
+      return true
     }
   }
 }
@@ -222,4 +241,50 @@ export default {
         border-top 1px solid rgba(7,17,27,0.1)
         position relative
         width 100%
+        .no_rating
+            font-size: 0.24rem;
+            color: #93999f;
+            line-height: 0.48rem;
+            padding-top: 0.24rem;
+        ul
+          margin 0
+          padding 0
+          li
+            list-style-type none
+            padding .32rem 0
+            border-bottom 1px solid rgba(7,17,24,.1)
+            &:last-child
+              border-bottom none
+            .user
+              position relative
+              float right
+              .avatar
+                width .24rem
+                height .24rem
+                border-radius 50%
+                vertical-align top
+              .name
+                font-size .2rem
+                color rgb(147,153,159)
+                line-height .24rem
+                vertical-align top
+                padding-right .12rem
+            .time
+              font-size .2rem
+              color rgb(147,153,159)
+              line-height .24rem
+            .text
+              padding .12rem 0 0 0
+              margin 0
+              font-size .24rem
+              color rgb(7,17,27)
+              line-height .32rem
+              .iconfont
+                font-size .24rem
+                line-height .48rem
+                margin-right .08rem
+                &.good
+                  color rgb(0,160,220)
+                &.difference
+                  color rgb(147,153,159)
 </style>
