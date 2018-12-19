@@ -3,7 +3,7 @@
     <Header :seller='sellen.seller'></Header>
     <tab></tab>
     <Shopcart :deliveryPrice='seller.deliveryPrice' :minPrice='seller.minPrice'></Shopcart>
-    <router-view :seller='seller'/>
+    <router-view :seller='seller' :ratings='ratings'/>
   </div>
 </template>
 
@@ -18,7 +18,8 @@ export default {
     return {
       sellen: {},
       commodity: [],
-      seller: {}
+      seller: {},
+      ratings: []
     }
   },
   components: {
@@ -33,6 +34,7 @@ export default {
     }).then(function (res) {
       _this.sellen = res.data
       _this.seller = _this.sellen.seller
+      _this.ratings = res.data.ratings
       // console.log(_this.seller)
       _this.commodity = res.data.goods
     })
