@@ -25,6 +25,7 @@ export default new Vuex.Store({
     foodesDecrease: function (ctx, data) {
       let foodIndex = ctx.selectFoods.findIndex(food => food.name === data.name)
       if (foodIndex === -1) {
+        return ''
         // ctx.selectFoods.push({
         //   name: data.name,
         //   price: data.price,

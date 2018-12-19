@@ -45,7 +45,7 @@
     </transition>
   </div>
   <transition>
-    <div class="mum" v-show="shopcart_show"></div>
+    <div class="mum" v-show="shopcart_show" @click="show_cart"></div>
   </transition>
 </div>
 </template>

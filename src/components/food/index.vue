@@ -16,7 +16,7 @@
             <span>￥{{food.price}}</span>
             <span v-show="food.oldPrice" class="foods_olprice">￥{{food.oldPrice}}</span>
           </div>
-          <div class="pay_buttom">加入购物车</div>
+          <div class="pay_buttom" @click="push_Pay({name: food.name, price: food.price},$event)">加入购物车</div>
         </div>
         <div class="information" v-show="food.info !==''">
           <h1 class="infor_title">介绍</h1>
@@ -51,7 +51,8 @@
 <script>
 import BScroll from 'better-scroll'
 import RatingSelect from './ratingselect.vue'
-
+import { mapMutations } from 'vuex'
+import BUS from '@/BUS.js'
 // const POSITIVE = 0
 // const NEGATIVE = 1
 const ALL = 2
@@ -119,7 +120,13 @@ export default {
         return false
       }
       return true
-    }
+    },
+    push_Pay (data, event) {
+      this.foodesClocke(data)
+      this.foodesPrice()
+      BUS.$emit('Ball', event.target)
+    },
+    ...mapMutations(['foodesClocke', 'foodesPrice'])
   }
 }
 </script>

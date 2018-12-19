@@ -51,6 +51,14 @@ export default {
     }).then(function (res) {
       _this.commodity = res.data.goods
     })
+  },
+  props: {
+    seller: {
+      type: Object
+    },
+    ratings: {
+      type: Array
+    }
   }
 }
 </script>
