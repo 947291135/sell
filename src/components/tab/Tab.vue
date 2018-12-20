@@ -1,6 +1,6 @@
 <template>
-    <div class="tab border-bottom">
-        <ul class="list border-bottom">
+    <div class="tab">
+        <ul class="list">
             <router-link tag="li" :to="{path:'/commodity'}"  class="list_item" exact>商品</router-link>
             <router-link tag="li" :to="{path:'/evaluate'}"  class="list_item" exact>评价</router-link>
             <router-link tag="li" :to="{path:'/business'}" class="list_item" exact>商家</router-link>
@@ -20,6 +20,14 @@ export default {
         width 100%
         height .8rem
         background #fff
+        &:before
+            content ''
+            position absolute
+            width 100%
+            bottom 0
+            left 0
+            border-top  1px solid rgba(7,17,27,.2)
+            transform  scaleY(0.5)
         .list
             display flex
             position relative

@@ -3,10 +3,19 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+let defaultGives = false
+try {
+  if (localStorage.Gives) {
+    defaultGives = localStorage.Gives
+    console.log()
+  }
+} catch (error) {}
+
 export default new Vuex.Store({
   state: {
     selectFoods: [], // {count: 1, name: '皮蛋瘦肉粥', price: 10}
-    price: 0
+    price: 0,
+    Gives: defaultGives
   },
   mutations: {
     foodesClocke: function (ctx, data) {
@@ -49,6 +58,13 @@ export default new Vuex.Store({
         total += food.price * food.count
       })
       ctx.price = total
+    },
+    // 点赞事件
+    handleGive: function (ctx, data) {
+      ctx.Gives = data.toString()
+      try {
+        localStorage.Gives = data
+      } catch (e) { }
     }
   }
 })

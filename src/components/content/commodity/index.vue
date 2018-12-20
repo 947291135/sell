@@ -66,7 +66,7 @@ export default {
 <style lang="stylus" scoped>
   .commodity
     position absolute
-    top 3.47rem
+    top 3.48rem
     bottom .96rem
     left 0
     width 100%
