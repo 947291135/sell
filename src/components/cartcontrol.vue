@@ -40,12 +40,10 @@ export default {
   methods: {
     add: function (event) {
       this.foodesClocke({name: this.foods.name, price: this.foods.price})
-      this.foodesPrice({name: this.foods.name, price: this.foods.price})
       BUS.$emit('Ball', event.target)
     },
     decrease: function () {
       this.foodesDecrease({name: this.foods.name, price: this.foods.price})
-      this.foodesPrice()
     },
     ...mapMutations(['foodesClocke', 'foodesPrice', 'foodesDecrease'])
   },

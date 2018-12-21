@@ -9,9 +9,9 @@
                         <span class="text" style="margin-right:.24rem;padding-left:.16rem">({{seller.ratingCount}})</span>
                         <span class="text">月售{{seller.sellCount}}单</span>
                     </div>
-                    <div class="zan" :class="{'active':BOOl(Gives)}" @click="GiveBool">
+                    <div class="zan" :class="{'active':Gives}" @click="GiveBool(Gives)">
                         <span class="iconfont">&#xe707;</span>
-                        <h4>{{ BOOl(Gives)?'已收藏':'收藏'}}</h4>
+                        <h4>{{Gives?'已收藏':'收藏'}}</h4>
                     </div>
                 </div>
                 <div class="header_bottom">
@@ -44,7 +44,7 @@
                 <div class="business_bg_content" ref="bg">
                     <ul class="bg_ul">
                         <li class="bg_item" v-for="(item,index) in seller.pics" :key="index">
-                            <img :src="item" alt="">
+                            <img :src="item">
                         </li>
                     </ul>
                 </div>
@@ -86,16 +86,13 @@ export default {
       classMap: ['decrease', 'discount', 'special', 'invoice', 'guarantee']
     }
   },
+  created () {
+    console.log(typeof this.Gives)
+  },
   methods: {
-    GiveBool () {
-      this.handleGive(!this.BOOl(this.Gives))
-    },
-    BOOl (data) {
-      if (data === 'false') {
-        return false
-      } else {
-        return true
-      }
+    GiveBool (data) {
+      let bool = !data
+      this.handleGive(bool)
     },
     ...mapMutations(['handleGive'])
   },
@@ -116,11 +113,6 @@ export default {
   },
   computed: {
     ...mapState(['Gives'])
-  },
-  watch: {
-    Gives: function () {
-      console.log(this.Gives)
-    }
   }
 }
 </script>
