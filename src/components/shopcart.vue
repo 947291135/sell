@@ -14,9 +14,9 @@
       <div class="content_right" :class="{active:this.price>=this.minPrice}">{{payDesc}}</div>
     </div>
     <div class="ball-container">
-      <transition-group v-on:before-enter="beforeEnter"
-        v-on:enter="enter"
-        v-on:after-enter="afterEnter">
+      <transition-group :before-enter="beforeEnter"
+        :enter="enter"
+        :after-enter="afterEnter">
         <div class="ball" v-for="(ball,index) in balls" v-show="ball.show" :key="index">
           <div class="inner inner-hook"></div>
         </div>
@@ -45,7 +45,7 @@
     </transition>
   </div>
   <transition>
-    <div class="mum" v-show="shopcart_show" @click="show_cart"></div>
+    <div class="mum" v-show="shopcart_show"></div>
   </transition>
 </div>
 </template>
@@ -93,29 +93,41 @@ export default {
     }
   },
   created () {
+    // 由总线接收派发事件
     BUS.$on('Ball', (data) => {
       this.$nextTick(() => {
+        // 将dom元素传递给_drop()事件
         this._drop(data)
       })
     })
   },
   methods: {
     _drop (data) {
+      // 循环遍历balls(还未执行动画小球)
       for (let i = 0; i < this.balls.length; i++) {
+        // 遍历第i个小球获取show
         let ball = this.balls[i]
+        // 如果第i个小球为false时候，将i小球show值改为true,并创建el字段，赋值dom元素
         if (!ball.show) {
           ball.show = true
           ball.el = data
+          // 将正在进行的动画小球赋值给dropBalls
           this.dropBalls.push(ball)
+          // 获取到未在进行动画的小球后return
           return
         }
       }
     },
+    // 准备进行动画的时事件调用
     beforeEnter (el) {
+      // 获取当前小球的个数
       let count = this.balls.length
+      // 通过while循环进行遍历小球，直到有正在运准备行动的小球
       while (count--) {
         let ball = this.balls[count]
+        // 如果碰到准备进行动画的小球，执行下面方法
         if (ball.show) {
+          // 以下代码是初始化小球的位置，也就是将小球定位到加减号的旁边，因为之前传过
           let rect = ball.el.getBoundingClientRect()
           let x = rect.left - 32
           let y = -(window.innerHeight - rect.top - 22)
@@ -128,10 +140,11 @@ export default {
         }
       }
     },
+    // 小球动画进行中的回调
     enter (el) {
       /* eslint-disable no-unused-vars */
-      let rf = el.offsetHeight
-      this.$nextTick(() => {
+      let rf = el.offsetHeight // 这里是关键初始化小球的内部高度
+      this.$nextTick(() => { // 优化小球动画
         el.style.webkitTransform = 'translate3d(0,0,0)'
         el.style.transform = 'translate3d(0,0,0)'
         let inner = el.getElementsByClassName('inner-hook')[0]
@@ -139,6 +152,7 @@ export default {
         inner.style.transform = 'translate3d(0,0,0)'
       })
     },
+    // 小球动画结束的回调
     afterEnter (el) {
       let ball = this.dropBalls.shift()
       if (ball) {
