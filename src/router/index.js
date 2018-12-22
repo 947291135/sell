@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // 商品页面
-import commodity from 'com/content/commodity/index'
+import Commodity from 'com/content/commodity/index'
 // 商家页面
 import business from 'com/content/business/index'
 // 评价页面
@@ -32,7 +32,7 @@ export default new Router({
       // 商品页面
       path: '/commodity',
       name: 'commodity',
-      component: commodity
+      component: Commodity
     }
   ],
   linkActiveClass: 'active'

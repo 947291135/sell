@@ -86,9 +86,6 @@ export default {
       classMap: ['decrease', 'discount', 'special', 'invoice', 'guarantee']
     }
   },
-  created () {
-    console.log(typeof this.Gives)
-  },
   methods: {
     GiveBool (data) {
       let bool = !data

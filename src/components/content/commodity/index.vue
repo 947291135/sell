@@ -44,7 +44,7 @@ export default {
     Content,
     FOOD
   },
-  created () {
+  mounted () {
     var _this = this
     axios.get('/static/json/data.json', {
       id: '123'
